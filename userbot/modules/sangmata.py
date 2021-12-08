@@ -66,3 +66,4 @@ CMD_HELP.update({
     "sangmata":
         "𝘾𝙤𝙢𝙢𝙖𝙣𝙙: `.sa`\
           \n↳ : Mendapatkan Riwayat Nama Pengguna Yang Di Scan."
+})
